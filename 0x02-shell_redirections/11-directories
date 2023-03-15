@@ -1,0 +1,17 @@
+#!/bin/bash
+count_directories() {
+    local dir="$1"
+    local count=0
+    for sub_dir in "$dir"/*/; do
+        if [[ -d "$sub_dir" && "$sub_dir" != "$dir/." && "$sub_dir" != "$dir/.." ]]; then
+            count=$(( count + 1 ))
+            count=$(( count + $( count_directories "$sub_dir" ) ))
+        fi
+    done
+    echo "$count"
+}
+
+
+count=$( count_directories "." )
+
+echo "$count"
