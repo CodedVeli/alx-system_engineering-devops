@@ -1,17 +1,14 @@
 #!/bin/bash
-count_directories() {
-    local dir="$1"
-    local count=0
-    for sub_dir in "$dir"/*/; do
-        if [[ -d "$sub_dir" && "$sub_dir" != "$dir/." && "$sub_dir" != "$dir/.." ]]; then
-            count=$(( count + 1 ))
-            count=$(( count + $( count_directories "$sub_dir" ) ))
-        fi
-    done
-    echo "$count"
-}
 
+# Set the initial count to zero
+count=0
 
-count=$( count_directories "." )
+# Loop through all directories (including hidden ones) in the current directory
+for dir in $(find . -type d -not -path '*/\.*' -not -path '.' -not -path '..'); do
+  # Increment the count for each directory
+  count=$((count+1))
+done
 
-echo "$count"
+# Output the count
+echo $count
+
